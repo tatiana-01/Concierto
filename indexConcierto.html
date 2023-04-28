@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script src="js/@popperjs/core/dist/umd/popper.js" defer></script>
+    <script src="js/bootstrap/bootstrap.js" defer></script>
+    <script src="js/codigo.js" defer></script> 
+    <title>Eventos ABC</title>
+</head>
+<body onload="mostrarOcultarContenedor(['#registroInicio'],['#metodoPago','#resumenCompra','#cancelado','#infoCredito','#datosEnvio','#datosFinal','#finalizado','#sobrepaso'])">
+<nav class="navbar bg-white">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">ABC</span>
+      </div>
+</nav>
+
+<div class="container mb-3" id="registroInicio">
+    <div class="row">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h1 class="card-title">Concierto</h1>
+              <form id="frmRegistro">
+                <h2>Ingrese los datos por favor</h2>
+                <div class="mb-3">
+                    <label for="identificacion" class="form-label">Identificacion CC</label>
+                    <input type="text" class="form-control" id="txtIdentificacion">
+                </div>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="txtNombre">
+                </div>
+                <div class="mb-3">
+                    <label for="fecha" class="form-label">Fecha de Concierto</label>
+                        <select class="form-select" id="txtFechaConcierto">
+                          <option selected>Open this select menu</option>
+                          <option value="10 de agosto de 2023">10 de agosto 2023</option>
+                          <option value="12 de agosto 2023">12 de agosto 2023</option>
+                        </select>
+                </div>
+                <div class="mb-3">
+                    <label for="boleta" class="form-label">Tipo Boleta</label>
+                        <select class="form-select" id="txtTipoBoleta">
+                          <option selected>Open this select menu</option>
+                          <option value="VIP">VIP</option>
+                          <option value="VIP General">VIP General</option>
+                          <option value="General">General </option>
+                          <option value="Graderia">Graderia</option>
+                        </select>
+                </div>
+                <div class="mb-3">
+                    <label for="cantidad" class="form-label">Cantidad</label>
+                    <input type="number" class="form-control" id="txtCantidad" min="1" max="2">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="revisarCompra()">Continuar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h1 class="card-title">Boletas</h1>
+              <div class="row">
+                <div class="col-sm-6">
+                  <p class="fw-bold">Tipo de boleta</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="fw-bold">Precio</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <p>VIP</p>
+                </div>
+                <div class="col-sm-6">
+                  <p>$1.000.000</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <p>VIP General</p>
+                </div>
+                <div class="col-sm-6">
+                  <p>$800.000</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <p>General</p>
+                </div>
+                <div class="col-sm-6">
+                  <p>$600.000</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <p>Graderia</p>
+                </div>
+                <div class="col-sm-6">
+                  <p>$400.000</p>
+                </div>
+              </div>
+              <p>*Precios sin iva incluido.</p>
+              <div class="text-center">
+                <img src="imagenes/mapa.png" class="img-fluid">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<div class="container mb-3" id="metodoPago">
+  <div class="card">
+    <div class="card-body">
+      <h1>Metodo de pago</h1>
+      <p>Por favor elija el metodo de pago:</p>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="credito" onclick="opTarjeta()">
+        <label class="form-check-label" for="flexRadioDefault1">
+          Tarjeta de credito
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="efectivo" onclick="opEfectivo()">
+        <label class="form-check-label" for="flexRadioDefault2">
+          Efectivo
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-3" id="resumenCompra">
+  <div class="card mb-3" id="resumenCard">
+    <div class="card-body">
+      <h1 class="card-title">Resumen compra</h1>
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="fw-bold">Nombre</p>
+        </div>
+        <div class="col-sm-6" id="nom">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="fw-bold">CC</p>
+        </div>
+        <div class="col-sm-6" id="cc">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="fw-bold">Fecha Concierto</p>
+        </div>
+        <div class="col-sm-6" id="fecha">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="fw-bold">Tipo Boleta</p>
+        </div>
+        <div class="col-sm-6" id="tipo">
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="fw-bold">Cantidad</p>
+        </div>
+        <div class="col-sm-6" id="cantidad">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="fw-bold">Subtotal</p>
+        </div>
+        <div class="col-sm-6" id="subtotal">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="fw-bold">Descuento</p>
+        </div>
+        <div class="col-sm-6" id="desc">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="fw-bold">IVA</p>
+        </div>
+        <div class="col-sm-6" id="iva">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="fw-bold">Total</p>
+        </div>
+        <div class="col-sm-6" id="total">
+        </div>
+     </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-3" id="infoCredito">
+  <div class="card mb-3">
+    <div class="card-body">
+      <h1 class="card-title">Datos de pago : Tarjeta de credito</h1>
+      <form id="frmCredito">
+        <div class="mb-3">
+          <label for="numeroCuenta" class="form-label">Numero de tarjeta</label>
+          <input type="text" class="form-control" id="txtNCuenta">
+        </div>
+        <div class="mb-3">
+          <label for="fechaExp" class="form-label">Fecha de Expiracion</label>
+          <input type="text" class="form-control" id="txtFecha" placeholder="DD/MM/AAAA">
+        </div>
+        <div class="mb-3">
+          <label for="cvv" class="form-label">CVV</label>
+          <input type="text" class="form-control" id="txtCvv" placeholder="CVC">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container mb-3" id="datosEnvio">
+  <div class="card mb-3">
+    <div class="card-body">
+      <h1 class="card-title">Datos de envio</h1>
+      <form id="frmEnvio">
+          <div class="mb-3">
+            <label for="ciudad" class="form-label">Ciudad de envio de boleta</label>
+            <input type="text" class="form-control" id="txtCiudad">
+        </div>
+        <div class="mb-3">
+          <label for="direccion" class="form-label">Direccion de envio de boleta</label>
+          <input type="text" class="form-control" id="txtDireccion">
+        </div>
+      </form>
+    </div>
+  </div>
+  <button type="button" class="btn btn-success" onclick="resumenFinal()">Continuar</button>
+  <button type="button" class="btn btn-danger" onclick="mostrarOcultarContenedor(['#cancelado'],['#registroInicio','#metodoPago','#resumenCompra','#infoCredito','#datosEnvio','#datosFinal','#finalizado','#sobrepaso'])">Cancelar</button>
+</div>
+
+<div class="container-fluid" id="datosFinal">
+  <div class="row">
+    <div class="col-6" id="datosResumen">
+    </div>
+    <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title mb-3">Datos de Envio</h1>
+            <div class="row">
+              <div class="col-sm-6">
+                <p class="fw-bold">Ciudad de envio</p>
+              </div>
+              <div class="col-sm-6" id="ciudad">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <p class="fw-bold">Direccion de envio</p>
+              </div>
+              <div class="col-sm-6" id="direcc">
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-success" onclick="almacenarInfo()">Confirmar</button>
+  <button type="button" class="btn btn-danger" onclick="mostrarOcultarContenedor(['#cancelado'],['#registroInicio','#metodoPago','#resumenCompra','#infoCredito','#datosEnvio','#datosFinal','#finalizado','#sobrepaso'])">Cancelar</button>
+</div>
+
+<div class="container mb-3" id="cancelado">
+  <div class="alert alert-danger" role="alert">
+    ¡Su compra ha sido cancelada!
+  </div>
+  <button type="button" class="btn btn-primary" onclick="limpiarFrm()">Volver al inicio</button>
+</div>
+
+<div class="container mb-3" id="finalizado">
+  <div class="alert alert-success" role="alert">
+    ¡Su compra ha sido finalizada exitosamente!
+  </div>
+  <button type="button" class="btn btn-primary" onclick="limpiarFrm()">Volver al inicio</button>
+</div>
+
+<div class="container mb-3" id="sobrepaso">
+  <div class="alert alert-danger" role="alert">
+    ¡Excedio el limite de boletas compradas por persona!
+  </div>
+  <button type="button" class="btn btn-primary" onclick="limpiarFrm()">Volver al inicio</button>
+</div>
+
+
+</body>
+</html>
